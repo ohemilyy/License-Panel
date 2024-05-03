@@ -1,3 +1,4 @@
+'use client'
 import { IoMoon } from "react-icons/io5";
 import {
 	Navbar as NextUINavbar,
@@ -9,36 +10,50 @@ import {
 	NavbarMenuItem,
 } from "@nextui-org/navbar";
 import { Button } from "@nextui-org/button";
-import { Kbd } from "@nextui-org/kbd";
 import { Link } from "@nextui-org/link";
 import { Input } from "@nextui-org/input";
 
 import { link as linkStyles } from "@nextui-org/theme";
 
-import { siteConfig } from "@/config/site";
 import NextLink from "next/link";
 import clsx from "clsx";
 // icons
 import { BiLogOutCircle } from "react-icons/bi";
 
+import { useRouter } from 'next/navigation'; 
 
 
-
-
+const siteConfig = {
+    navItems: [
+        { label: 'Home', href: '/dashboard' }, 
+        { label: 'Licenses', href: '/licenses' },
+        { label: 'Products', href: '/products' },
+        { label: 'Blocklists', href: '/blocklists' },
+        { label: 'Leader', href: '/leader' },
+        { label: 'My Licenses', href: '/my-licenses' },
+        { label: 'My Subcustomers', href: '/my-subcustomers' },
+    ],
+};
 
 import { ThemeSwitch } from "@/components/theme-switch";
 import {
-	TwitterIcon,
-	GithubIcon,
 	DiscordIcon,
 	SearchIcon,
 	RiLogoutCircleLine,
 	
 } from "@/components/icons";
 
-import { Logo } from "@/components/icons";
-
 export const Navbar = () => {
+	const router = useRouter(); // Initialize the router
+
+	const handleLogout = () => {
+		// Add your logout functionality here
+		// ...
+
+		// Redirect to the desired page
+		router.push('/');
+	};
+
 	const searchInput = (
 		<Input
 			aria-label="Search"
@@ -46,11 +61,6 @@ export const Navbar = () => {
 				inputWrapper: "bg-default-100",
 				input: "text-sm",
 			}}
-			endContent={
-				<Kbd className="hidden lg:inline-block" keys={["command"]}>
-					K
-				</Kbd>
-			}
 			labelPlacement="outside"
 			placeholder="Search..."
 			startContent={
@@ -64,10 +74,8 @@ export const Navbar = () => {
 		<NextUINavbar maxWidth="xl" position="sticky">
 			<NavbarContent className="basis-1/5 sm:basis-full" justify="start">
 				<NavbarBrand as="li" className="gap-3 max-w-fit">
-					<NextLink className="flex justify-start items-center gap-1" href="/">
-					<IoMoon className="size-6"/> {/* change this to an image with the logo when ready uwu */}
-
-					
+					<NextLink className="flex justify-start items-center gap-1 cursor-default" href="">
+						<IoMoon className="size-6" /> {/* change this to an image with the logo when ready uwu */}
 						<p className="font-bold text-inherit">Lunar Labs</p> {/* change this to name when ready */}
 					</NextLink>
 				</NavbarBrand>
@@ -79,7 +87,6 @@ export const Navbar = () => {
 									linkStyles({ color: "foreground" }),
 									"data-[active=true]:text-primary data-[active=true]:font-medium"
 								)}
-								color="foreground"
 								href={item.href}
 							>
 								{item.label}
@@ -94,9 +101,7 @@ export const Navbar = () => {
 				justify="end"
 			>
 				<NavbarItem className="hidden sm:flex gap-2">
-				
-					<Link isExternal href="" aria-label="Discord "> 		{/* replace with ur discord link uwu */}
-				
+					<Link isExternal href="" aria-label="Discord "> 		{/* replace with your Discord link uwu */}
 						<DiscordIcon className="text-default-500" />
 					</Link>
 					<ThemeSwitch />
@@ -104,10 +109,9 @@ export const Navbar = () => {
 				<NavbarItem className="hidden lg:flex">{searchInput}</NavbarItem>
 				<NavbarItem className="hidden md:flex">
 					<Button
-            isExternal
 						as={Link}
 						className="text-sm font-normal text-default-600 bg-default-100"
-						href="page"
+						onClick={handleLogout}
 						startContent={<BiLogOutCircle className="text-danger size-6" />}
 						variant="flat"
 					>
@@ -117,9 +121,6 @@ export const Navbar = () => {
 			</NavbarContent>
 
 			<NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
-				<Link isExternal href={siteConfig.links.github} aria-label="Github">
-					<GithubIcon className="text-default-500" />
-				</Link>
 				<ThemeSwitch />
 				<NavbarMenuToggle />
 			</NavbarContent>
@@ -127,17 +128,17 @@ export const Navbar = () => {
 			<NavbarMenu>
 				{searchInput}
 				<div className="mx-4 mt-2 flex flex-col gap-2">
-					{siteConfig.navMenuItems.map((item, index) => (
+					{siteConfig.navItems.map((item, index) => (
 						<NavbarMenuItem key={`${item}-${index}`}>
 							<Link
 								color={
 									index === 2
 										? "primary"
-										: index === siteConfig.navMenuItems.length - 1
-										? "danger"
-										: "foreground"
+										: index === siteConfig.navItems.length - 1
+											? "danger"
+											: "foreground"
 								}
-								href="#"
+								href={item.href}
 								size="lg"
 							>
 								{item.label}
