@@ -1,4 +1,7 @@
-'use client'
+'use client';
+import { link as linkStyles } from '@nextui-org/theme';
+
+import React, { useState } from 'react';
 import { IoMoon } from "react-icons/io5";
 import {
 	Navbar as NextUINavbar,
@@ -9,51 +12,59 @@ import {
 	NavbarItem,
 	NavbarMenuItem,
 } from "@nextui-org/navbar";
-import { Button } from "@nextui-org/button";
-import { Link } from "@nextui-org/link";
+import { Button, Link } from "@nextui-org/react";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@nextui-org/react";
 import { Input } from "@nextui-org/input";
-
-import { link as linkStyles } from "@nextui-org/theme";
-
 import NextLink from "next/link";
 import clsx from "clsx";
-// icons
 import { BiLogOutCircle } from "react-icons/bi";
-
-import { useRouter } from 'next/navigation'; 
-
+import { useRouter } from 'next/navigation';
+import { ThemeSwitch } from "@/components/theme-switch";
+import { DiscordIcon, SearchIcon } from "@/components/icons";
 
 const siteConfig = {
-    navItems: [
-        { label: 'Home', href: '/dashboard' }, 
-        { label: 'Licenses', href: '/licenses' },
-        { label: 'Products', href: '/products' },
-        { label: 'Blocklists', href: '/blocklists' },
-        { label: 'Leader', href: '/leader' },
-        { label: 'My Licenses', href: '/my-licenses' },
-        { label: 'My Subcustomers', href: '/my-subcustomers' },
-    ],
+	navItems: [
+		{ label: 'Home', href: '/dashboard' },
+		{ label: 'Licenses', href: '/licenses' },
+		{ label: 'Products', href: '/products' },
+		{ label: 'Blocklists', href: '/blocklists' },
+		{ label: 'Leader', href: '/leader' },
+		{ label: 'My Licenses', href: '/my-licenses' },
+		{ label: 'My Subcustomers', href: '/my-subcustomers' },
+	],
 };
-
-import { ThemeSwitch } from "@/components/theme-switch";
-import {
-	DiscordIcon,
-	SearchIcon,
-	RiLogoutCircleLine,
-	
-} from "@/components/icons";
 
 export const Navbar = () => {
 	const router = useRouter(); // Initialize the router
+	const [isModalOpen, setIsModalOpen] = useState(false); // Modal open state
 
+	// Function to open the modal
+	const openModal = () => {
+		setIsModalOpen(true);
+	};
+
+	// Function to handle logout action
 	const handleLogout = () => {
-		// Add your logout functionality here
-		// ...
-
-		// Redirect to the desired page
+		// Redirect to the home page
 		router.push('/');
 	};
 
+	// Function to confirm logout
+	const confirmLogout = () => {
+		// Perform logout functionality
+		// ...
+
+		// Close modal
+		setIsModalOpen(false);
+		handleLogout();
+	};
+
+	// Function to cancel logout
+	const cancelLogout = () => {
+		setIsModalOpen(false);
+	};
+
+	// Search input component
 	const searchInput = (
 		<Input
 			aria-label="Search"
@@ -96,12 +107,9 @@ export const Navbar = () => {
 				</ul>
 			</NavbarContent>
 
-			<NavbarContent
-				className="hidden sm:flex basis-1/5 sm:basis-full"
-				justify="end"
-			>
+			<NavbarContent className="hidden sm:flex basis-1/5 sm:basis-full" justify="end">
 				<NavbarItem className="hidden sm:flex gap-2">
-					<Link isExternal href="" aria-label="Discord "> 		{/* replace with your Discord link uwu */}
+					<Link isExternal href="" aria-label="Discord">
 						<DiscordIcon className="text-default-500" />
 					</Link>
 					<ThemeSwitch />
@@ -111,7 +119,7 @@ export const Navbar = () => {
 					<Button
 						as={Link}
 						className="text-sm font-normal text-default-600 bg-default-100"
-						onClick={handleLogout}
+						onClick={openModal} // Open modal on button click
 						startContent={<BiLogOutCircle className="text-danger size-6" />}
 						variant="flat"
 					>
@@ -147,6 +155,33 @@ export const Navbar = () => {
 					))}
 				</div>
 			</NavbarMenu>
+
+			{/* Modal for logout confirmation */}
+			<Modal
+				isOpen={isModalOpen}
+				onOpenChange={setIsModalOpen}
+				isDismissable={false}
+				isKeyboardDismissDisabled={true}
+			>
+				<ModalContent>
+					{(onClose) => (
+						<>
+							<ModalHeader>Are you sure you want to log out?</ModalHeader>
+							<ModalBody>
+								<p>This action will log you out of your account.</p>
+							</ModalBody>
+							<ModalFooter>
+								<Button color="danger" variant="light" onPress={cancelLogout}>
+									Cancel
+								</Button>
+								<Button color="primary" onPress={confirmLogout}>
+									Log out
+								</Button>
+							</ModalFooter>
+						</>
+					)}
+				</ModalContent>
+			</Modal>
 		</NextUINavbar>
 	);
 };
