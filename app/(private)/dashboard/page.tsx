@@ -122,7 +122,7 @@ export default function App() {
                             <div className="flex items-center gap-2">
                                 <MdBlock className="text-xl size-8" />
                                 <div>
-                                    <h1 className="font-bold">Total Blocklists:</h1>
+                                    <h1 className="font-bold">Total Blacklists:</h1>
                                     <p>12</p>
                                 </div>
                             </div>
@@ -160,12 +160,7 @@ export default function App() {
     <CardBody className="flex flex-col justify-start">
       <p className="font-bold text-lg pb-5">Players</p>
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 text-center" >
-      <p >MEOW MEOW MEOW MOEW</p>
-      <p>MEOW MEOW MEOW MOEW</p>
-      <p>MEOW MEOW MEOW MOEW</p>
-      <p>MEOW MEOW MEOW MOEW</p>
-      <p>MEOW MEOW MEOW MOEW</p>
-      <p>MEOW MEOW MEOW MOEW</p>
+      <p >placeholder here </p>
     </div>
 
     </CardBody>
@@ -174,12 +169,7 @@ export default function App() {
     <CardBody className="flex flex-col justify-start">
       <p className="font-bold text-lg pb-5">Networks</p>
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 text-center" >
-      <p >MEOW MEOW MEOW MOEW</p>
-      <p>MEOW MEOW MEOW MOEW</p>
-      <p>MEOW MEOW MEOW MOEW</p>
-      <p>MEOW MEOW MEOW MOEW</p>
-      <p>MEOW MEOW MEOW MOEW</p>
-      <p>MEOW MEOW MEOW MOEW</p>
+      <p >5 NETWORKS using our software</p>
     </div>
 
     </CardBody>

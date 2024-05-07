@@ -5,7 +5,7 @@ import { Card } from '@nextui-org/react';
 import { FaArrowLeft, FaArrowRight, FaExclamationCircle, FaClock, FaNetworkWired } from 'react-icons/fa';
 import { motion } from 'framer-motion'; // Import Framer Motion
 
-const blocklists = [
+const Blacklists = [
     {
         ip: '192.168.0.1',
         error: 'Error',
@@ -158,10 +158,10 @@ const BlocklistPage = () => {
     const endIndex = startIndex + pageSize;
 
     // Get the current page data
-    const currentBlocklistData = blocklists.slice(startIndex, endIndex);
+    const currentBlocklistData = Blacklists.slice(startIndex, endIndex);
 
     // Calculate the total number of pages
-    const totalPages = Math.ceil(blocklists.length / pageSize);
+    const totalPages = Math.ceil(Blacklists.length / pageSize);
 
     const handlePrevPage = () => {
         if (currentPage > 1) {
