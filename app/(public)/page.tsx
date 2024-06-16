@@ -17,20 +17,17 @@ export default function Home() {
   const [error, setError] = useState<string | null>(null);
   const { login } = useSession();
   const { push } = useRouter();
-  
-  async function onSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
+
+  async function onSubmit(formData: FormData) {
     setIsLoading(true);
     setError(null);
- 
-    try {
-      const formData = new FormData(event.currentTarget);
 
+    try {
       const res = await login({ username: formData.get("username"), password: formData.get("password") });
       if (isResultError(res, true)) {
         throw new Error(res[2] ?? "Unknown error");
       }
-      
+
       push(redirectUrl);
     } catch (error: any) {
       setError(error.message);
@@ -45,11 +42,11 @@ export default function Home() {
         <Console className="pb-10 p-6 sm:px-16 flex flex-col items-center">
           <Logo className="mx-auto mt-2 mb-4" href={'/'} />
           <h3 className="mb-4 text-primary">Login to our Dashboard</h3>
-          {error && <p className="text-error mb-1">{error}</p>}
-          <form className="w-[75%]" onSubmit={onSubmit}>
+          {error && <p className="text-error mb-1 text-red-500">{error}</p>}
+          <form className="w-[75%]" action={onSubmit}>
             <input className="py-2 px-4 min-h-fit h-fit w-full overflow-hidden rounded-lg mb-2" disabled={isLoading} type="text" name="username" placeholder="Username or Email" required/>
             <input className="py-2 px-4 min-h-fit h-fit w-full overflow-hidden rounded-lg mb-2" disabled={isLoading} type="password" name="password" placeholder="Password" required/>
-            <button className="btn btn-secondary py-2 px-4 min-h-fit h-fit w-full mb-2" disabled={isLoading} type="submit">{isLoading ? "On it…" : "Sign in"}</button>
+            <button className="btn btn-secondary font-bold text-xl rounded-lg w-fit border-2 py-2 px-4 min-h-fit h-fit" disabled={isLoading} type="submit">{isLoading ? "On it…" : "Sign in"}</button>
           </form>
           <div className="inline-block w-[75%] h-[1px] bg-neutral mt-5 mb-4"></div>
           <small className="my-1"><b className="inline-flex items-center gap-1">
