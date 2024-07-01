@@ -32,4 +32,4 @@ export const newUuid = () => {
   );
 }
 
-export const ApiClient = new HTTPClient(process.env.API_ADDR!, { "X-Api-Key": process.env.API_KEY! });
+export const ApiClient = new HTTPClient(process.env.RESTAPI_URL!, { "X-Api-Key": process.env.RESTAPI_KEY! });
